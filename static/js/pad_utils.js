@@ -34,6 +34,7 @@ var padutils = {
   },
   uniqueId: function()
   {
+    var pad = require('/pad2').pad; // Sidestep circular dependency
     function encodeNum(n, width)
     {
       // returns string that is exactly 'width' chars, padding with zeros
@@ -108,24 +109,6 @@ var padutils = {
     // everything else
     var x = ua.split(' ')[0];
     return clean(x);
-  },
-  // "func" is a function over 0..(numItems-1) that is monotonically
-  // "increasing" with index (false, then true).  Finds the boundary
-  // between false and true, a number between 0 and numItems inclusive.
-  binarySearch: function(numItems, func)
-  {
-    if (numItems < 1) return 0;
-    if (func(0)) return 0;
-    if (!func(numItems - 1)) return numItems;
-    var low = 0; // func(low) is always false
-    var high = numItems - 1; // func(high) is always true
-    while ((high - low) > 1)
-    {
-      var x = Math.floor((low + high) / 2); // x != low, x != high
-      if (func(x)) high = x;
-      else low = x;
-    }
-    return high;
   },
   // e.g. "Thu Jun 18 2009 13:09"
   simpleDateTime: function(date)
@@ -226,6 +209,7 @@ var padutils = {
   },
   timediff: function(d)
   {
+    var pad = require('/pad2').pad; // Sidestep circular dependency
     function format(n, word)
     {
       n = Math.round(n);
@@ -486,3 +470,7 @@ window.onerror = function test (msg, url, linenumber)
  
  return false;
 };
+
+padutils.binarySearch = require('/ace2_common').binarySearch;
+
+exports.padutils = padutils;
