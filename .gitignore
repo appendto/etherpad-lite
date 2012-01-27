@@ -7,5 +7,6 @@ bin/node.exe
 etherpad-lite-win.zip
 var/dirty.db
 bin/convertSettings.json
+update_from_upstream.sh
 *~
 *.patch
